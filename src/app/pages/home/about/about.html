@@ -1,0 +1,45 @@
+<section
+  class="fixed inset-0 w-full h-full z-3 bg-surface-50 transition-opacity duration-1000 ease-out"
+  [style.opacity]="active() ? 1 : 0"
+  [style.pointer-events]="active() ? 'auto' : 'none'"
+>
+  <canvas
+    #canvas
+    aria-hidden="true"
+    class="absolute inset-0 w-full h-full"
+  ></canvas>
+
+  <div
+    class="absolute inset-0 flex items-center justify-center z-1 px-6"
+    [style.translate]="translation.currentLang() === 'ar' ? '6%' : '-6%'"
+  >
+    <div
+      class="w-full max-w-md text-center"
+      [style.opacity]="textReveal()"
+      [style.scale]="0.85 + textReveal() * 0.15"
+    >
+      <p class="text-white/60 text-sm md:text-base tracking-[0.2em] uppercase mb-4">
+        {{ translation.translate('عن', 'About', 'À propos', 'Chi sono') }}
+      </p>
+      <h2 class="text-3xl md:text-5xl font-bold metallic-text mb-6">
+        {{ translation.translate('عبدالفتاح قنديل', 'Abdelfattah Qandil', 'Abdelfattah Qandil', 'Abdelfattah Qandil') }}
+      </h2>
+      <p class="text-white/80 text-base md:text-lg leading-relaxed mb-6">
+        {{ translation.translate(
+          'مهندس واجهات أول، متخصص في بناء تطبيقات مؤسسية قابلة للتوسع بهندسة نظيفة وأداء عالٍ.',
+          'Senior Frontend Engineer specialized in building scalable enterprise applications with clean architecture and high performance.',
+          'Ingénieur frontend senior spécialisé dans la création d\'applications d\'entreprise évolutives avec une architecture propre et hautes performances.',
+          'Ingegnere frontend senior specializzato nella creazione di applicazioni enterprise scalabili con architettura pulita e alte prestazioni.'
+        ) }}
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        @for (tech of ['Angular', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS']; track tech) {
+          <span class="px-4 py-2 rounded-lg border border-white/10 text-white/60 text-sm font-medium
+                       transition-colors duration-200 hover:border-white/30 hover:text-white/80">
+            {{ tech }}
+          </span>
+        }
+      </div>
+    </div>
+  </div>
+</section>

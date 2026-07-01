@@ -1,0 +1,38 @@
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) both flip-out;
+    background-color: var(--color-metal-800);
+    transform-origin: right center;
+  }
+
+  ::view-transition-new(root) {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) both flip-in;
+    background-color: var(--color-metal-800);
+    transform-origin: right center;
+  }
+}
+
+@keyframes flip-out {
+  from {
+    transform: perspective(800px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: perspective(800px) rotateY(-90deg) scale(0.95);
+    opacity: 0.3;
+  }
+}
+
+@keyframes flip-in {
+  from {
+    transform: perspective(800px) rotateY(90deg) scale(0.95);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  to {
+    transform: perspective(800px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}

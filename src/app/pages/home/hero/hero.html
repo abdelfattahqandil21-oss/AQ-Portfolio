@@ -1,0 +1,79 @@
+<main>
+  <canvas
+    #canvas
+    role="img"
+    aria-label="Interactive 3D code blocks visualization"
+    class="fixed inset-0 w-full h-full -z-10"
+  ></canvas>
+
+  <!-- Dark overlay for diving feel -->
+  <div
+    class="fixed inset-0 z-2 pointer-events-none transition-opacity duration-500"
+    [style.background]="'var(--color-surface-50)'"
+    [style.opacity]="darkOverlay()"
+  ></div>
+
+  <!-- About section emerges from the dive -->
+  <about-section [active]="aboutReveal()" />
+
+  @for (slide of slides; track slide.id; let i = $index) {
+    <div
+      class="fixed inset-0 z-1 flex items-center justify-center pointer-events-none transition-opacity duration-500"
+      [style.opacity]="slideStates()[i].opacity * (1 - contentFade())"
+      [style.transform]="'translateY(' + slideSinkY() + 'px) scale(' + slideSinkScale() + ')'"
+    >
+      <div
+        class="text-center max-w-xl px-8 py-10 rounded-2xl bg-surface-950 will-change-transform"
+        [style.transform]="activeIndex() === i ? 'scale(' + textScale() + ')' : 'scale(1)'"
+        [style.letter-spacing]="activeIndex() === i ? letterSpacing() : '0.15em'"
+      >
+        @if (i === 0) {
+          <p class="text-8xl md:text-9xl font-bold metallic-text mb-5 leading-none">AQ</p>
+        } @else {
+          <p class="text-white/60 text-lg md:text-xl tracking-[0.15em] uppercase mb-5">
+            {{ translation.translate(slide.content.ar[0], slide.content.en[0], slide.content.fr[0], slide.content.it[0]) }}
+          </p>
+        }
+
+        @let parts = translation.translate(slide.content.ar[1], slide.content.en[1], slide.content.fr[1], slide.content.it[1]).split('\n');
+        <p class="text-white/80 text-2xl md:text-3xl leading-relaxed">
+          {{ parts[0] }}
+        </p>
+        @if (parts.length > 1) {
+          <p class="text-white/50 text-base md:text-lg leading-relaxed mt-2">
+            {{ parts[1] }}
+          </p>
+        }
+
+        @if (i === 2) {
+          <div class="flex items-center justify-center gap-5 mt-12 pointer-events-auto">
+            <a
+              href="#"
+              aria-label="Download Abdelfattah Atef CV"
+              class="btn-shine cursor-pointer px-7 py-3.5 rounded-xl border border-white/20 text-white/60 text-sm font-medium
+                     transition-all duration-300 hover:border-white/40 hover:text-white
+                     hover:scale-105 active:scale-95 flex items-center gap-2.5"
+            >
+              <i class="pi pi-download text-sm relative z-1" aria-hidden="true"></i>
+              <span class="relative z-1">CV</span>
+            </a>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Abdelfattah Atef GitHub Profile"
+              class="btn-shine cursor-pointer px-7 py-3.5 rounded-xl border border-white/20 text-white/60 text-sm font-medium
+                     transition-all duration-300 hover:border-white/40 hover:text-white
+                     hover:scale-105 active:scale-95 flex items-center gap-2.5"
+            >
+              <i class="pi pi-github text-sm relative z-1" aria-hidden="true"></i>
+              <span class="relative z-1">GitHub</span>
+            </a>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="spacer" [style.height.vh]="spacerVh"></div>
+</main>

@@ -1,0 +1,47 @@
+<nav class="fixed top-0 left-0 right-0 z-100 h-16 flex items-center px-6 bg-surface-950 backdrop-blur-md border-b border-surface-800/30">
+  <a href="/" class="shrink-0">
+    <span class="text-xl leading-none subtle-metal shimmer logo-font">AQ</span>
+  </a>
+
+  <ul class="flex items-center gap-0.5 flex-1 justify-center max-xl:hidden">
+    @for (item of navItems; track item.href) {
+      <li
+        class="px-4 py-2 rounded-lg text-sm font-medium text-metal-400 cursor-pointer
+               transition-all duration-200 hover:bg-surface-800 hover:text-metal-200
+               [&.active]:bg-surface-700 [&.active]:text-white"
+        [class.active]="activeSection() === item.href.slice(1)"
+      >
+        {{ translation.translate(item.label.ar, item.label.en, item.label.fr, item.label.it) }}
+      </li>
+    }
+  </ul>
+
+  <div class="flex items-center gap-3 shrink-0">
+    <lang-switcher />
+    <button
+      class="max-xl:flex hidden items-center justify-center w-9 h-9 rounded-lg text-metal-400
+             transition-all duration-200 hover:bg-surface-800 hover:text-metal-200"
+      (click)="mobileOpen.update(v => !v)"
+    >
+      <i class="pi text-lg" [class.pi-bars]="!mobileOpen()" [class.pi-times]="mobileOpen()"></i>
+    </button>
+  </div>
+</nav>
+
+@if (mobileOpen()) {
+  <ul
+    animate.enter="menu-enter" animate.leave="menu-leave"
+    class="fixed top-16 left-0 right-0 z-99 list-none p-2 bg-surface-900/95 backdrop-blur-md border-b border-surface-700/40
+           flex flex-col max-xl:flex"
+  >
+    @for (item of navItems; track item.href) {
+      <li
+        class="px-4 py-3 rounded-lg text-sm font-medium text-metal-400 cursor-pointer
+               transition-all duration-200 hover:bg-surface-800 hover:text-metal-200"
+        (click)="mobileOpen.set(false)"
+      >
+        {{ translation.translate(item.label.ar, item.label.en, item.label.fr, item.label.it) }}
+      </li>
+    }
+  </ul>
+}

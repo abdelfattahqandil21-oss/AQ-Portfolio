@@ -1,0 +1,29 @@
+@theme {
+  --color-surface-50: oklch(0.12 0.008 260);
+  --color-surface-100: oklch(0.16 0.012 260);
+  --color-surface-200: oklch(0.2 0.016 260);
+  --color-surface-300: oklch(0.26 0.02 260);
+  --color-surface-400: oklch(0.35 0.025 260);
+  --color-surface-500: oklch(0.45 0.03 260);
+  --color-surface-600: oklch(0.55 0.03 260);
+  --color-surface-700: oklch(0.65 0.025 260);
+  --color-surface-800: oklch(0.78 0.02 260);
+  --color-surface-900: oklch(0.92 0.012 260);
+
+  --color-metal-50: oklch(0.18 0.008 240);
+  --color-metal-100: oklch(0.28 0.012 240);
+  --color-metal-200: oklch(0.38 0.016 240);
+  --color-metal-300: oklch(0.48 0.02 240);
+  --color-metal-400: oklch(0.58 0.024 240);
+  --color-metal-500: oklch(0.68 0.028 240);
+  --color-metal-600: oklch(0.76 0.024 240);
+  --color-metal-700: oklch(0.84 0.02 240);
+  --color-metal-800: oklch(0.9 0.016 240);
+  --color-metal-900: oklch(0.96 0.01 240);
+
+  --color-surface: var(--color-surface-500);
+  --color-metal: var(--color-metal-500);
+
+  --font-primary: "Almarai", "Inter", system-ui, sans-serif;
+  --font-secondary: "Inter", system-ui, sans-serif;
+}
