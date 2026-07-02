@@ -34,12 +34,15 @@ export class Header {
   readonly activeSection = computed(() => {
     const sy = this.scroll.scrollY();
     const aboutStartPx = (385 * window.innerHeight) / 100;
+    const skillsStartPx = (480 * window.innerHeight) / 100;
     if (sy < aboutStartPx) return 'home';
-    return 'about';
+    if (sy < skillsStartPx) return 'about';
+    return 'skills';
   });
 
   private readonly SCROLL_TARGETS: Record<string, number> = {
-    about: 385, // vh at which aboutReveal triggers
+    about: 385,
+    skills: 480,
   };
 
   navigate(href: string): void {

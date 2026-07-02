@@ -1,0 +1,53 @@
+<section id="projects" class="projects-root">
+  @for (proj of projects; track proj.id; let i = $index) {
+    <div
+      class="project-block"
+      [class.active]="isActive()[i]"
+      [style.opacity]="blockStates()[i].opacity"
+      [style.transform]="'scale(' + blockStates()[i].scale + ')'"
+      [style.pointer-events]="activeIndex() === i ? 'auto' : 'none'"
+      [style.z-index]="isActive()[i] ? 5 : 1"
+    >
+      <div class="project-card">
+        <div class="project-img-wrap">
+          <img [src]="proj.img" [alt]="proj.title.en" class="project-img" loading="lazy" />
+        </div>
+        <div class="project-body">
+          <h2 class="project-title">
+            {{ translation.translate(proj.title.ar, proj.title.en, proj.title.fr, proj.title.it) }}
+          </h2>
+          <p class="project-desc">
+            {{ translation.translate(proj.desc.ar, proj.desc.en, proj.desc.fr, proj.desc.it) }}
+          </p>
+          <div class="project-tech">
+            @for (t of proj.tech; track t) {
+              <span class="tech-badge">{{ t }}</span>
+            }
+          </div>
+          <a
+            [href]="proj.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="project-link"
+          >
+            <i class="pi pi-external-link" aria-hidden="true"></i>
+            {{ translation.translate('زيارة المشروع', 'Visit Project', 'Voir le projet', 'Visita il progetto') }}
+          </a>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div
+    class="projects-end-fade"
+    [style.opacity]="sectionFade()"
+    [style.transform]="'translateY(' + sectionSinkY() + 'px)'"
+    [style.z-index]="sectionFade() > 0.01 ? 5 : 1"
+  >
+    <div class="projects-end-card">
+      <h2 class="end-title">
+        {{ translation.translate('شكراً', 'Thank you', 'Merci', 'Grazie') }}
+      </h2>
+    </div>
+  </div>
+</section>

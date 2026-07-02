@@ -18,9 +18,10 @@
 
   @for (slide of slides; track slide.id; let i = $index) {
     <div
-      class="fixed inset-0 z-1 flex items-center justify-center pointer-events-none transition-opacity duration-500"
+      class="fixed inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500"
       [style.opacity]="slideStates()[i].opacity * (1 - contentFade())"
       [style.transform]="'translateY(' + slideSinkY() + 'px) scale(' + slideSinkScale() + ')'"
+      [style.z-index]="heroActive() && activeIndex() === i ? 5 : 1"
     >
       <div
         class="text-center max-w-xl px-8 py-10 rounded-2xl bg-surface-950 will-change-transform float-anim"
@@ -46,7 +47,7 @@
         }
 
         @if (i === 2) {
-          <div class="flex items-center justify-center gap-5 mt-12 pointer-events-auto">
+          <div class="flex items-center justify-center gap-5 mt-12" [style.pointer-events]="activeIndex() === i ? 'auto' : 'none'">
             <a
               href="/Abdelfattah_Atef_CV.pdf"
               download="Abdelfattah_Atef_CV.pdf"

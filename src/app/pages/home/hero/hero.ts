@@ -72,7 +72,7 @@ export class Hero {
   /** Hero content scroll space (slides only) */
   readonly heroContentVh = this.numSlides * 150;
   /** Extra scroll room so about section is fully visible at scroll end */
-  readonly aboutExtraVh = 130;
+  readonly aboutExtraVh = 30;
   readonly spacerVh = this.heroContentVh + this.aboutExtraVh;
 
   readonly slideHeight = computed(() => {
@@ -158,8 +158,15 @@ export class Hero {
     return 1 - (p - 0.35) * 0.5;
   });
 
+  readonly heroActive = computed(() => this.contentFade() < 0.95);
+
   readonly aboutReveal = computed(() => {
-    return this.heroFadeProgress() > 0.35;
+    const fp = this.heroFadeProgress();
+    if (fp <= 0.35) return false;
+    const spacerEndPx = (this.spacerVh * window.innerHeight) / 100;
+    const fadeOutAt = spacerEndPx - window.innerHeight * 0.3;
+    if (this.scroll.scrollY() > fadeOutAt) return false;
+    return true;
   });
 
   readonly slideStates = computed(() => {
@@ -359,12 +366,24 @@ export class Hero {
         this.edges.rotation.z = this.paraX * 0.08;
       }
 
+      const spacerEndPx = (this.spacerVh * window.innerHeight) / 100;
       const fadeP = this.heroFadeProgress();
-      if (fadeP > 0) {
+      if (fadeP > 0 && y < spacerEndPx) {
         this.edgesMaterial.opacity = Math.max(0, this.edgesMaterial.opacity - 0.04);
         for (const layer of this.particleLayers) {
           layer.material.opacity = Math.max(0, layer.material.opacity - 0.04);
         }
+      }
+
+      if (y > spacerEndPx) {
+        this.edgesMaterial.opacity = Math.max(this.edgesMaterial.opacity, 0.4);
+        for (const layer of this.particleLayers) {
+          layer.material.opacity = Math.max(layer.material.opacity, 0.15);
+        }
+        this.camera.position.z += (4.2 - this.camera.position.z) * speed;
+        const targetScale = 2.8;
+        const es = this.edges.scale.x + (targetScale - this.edges.scale.x) * speed;
+        this.edges.scale.set(es, es, es);
       }
 
       this.renderer.render(this.scene, this.camera);

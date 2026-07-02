@@ -1,0 +1,44 @@
+<section id="skills" class="skills-root">
+  @for (cat of categories; track cat.id; let i = $index) {
+    <div
+      class="skill-block"
+      [class.active]="isActive()[i]"
+      [style.opacity]="blockStates()[i].opacity"
+      [style.transform]="'scale(' + blockStates()[i].scale + ')'"
+      [style.pointer-events]="activeIndex() === i ? 'auto' : 'none'"
+      [style.z-index]="isActive()[i] ? 5 : 1"
+    >
+      <div class="skill-card">
+        <p class="skill-subtitle">{{ cat.subtitle }}</p>
+        <h2 class="skill-title">
+          {{ translation.translate(cat.title.ar, cat.title.en, cat.title.fr, cat.title.it) }}
+        </h2>
+
+        <ul class="skill-list">
+          @for (item of cat.items; track item.name) {
+            <li
+              class="skill-item"
+              [style.transition-delay]="$index * 80 + 'ms'"
+            >
+              <i class="pi pi-angle-right skill-icon" aria-hidden="true"></i>
+              <span>{{ item.name }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  }
+
+  <div
+    class="skills-end-fade"
+    [style.opacity]="sectionFade()"
+    [style.transform]="'translateY(' + sectionSinkY() + 'px)'"
+    [style.z-index]="sectionFade() > 0.01 ? 5 : 1"
+  >
+    <div class="skills-end-card">
+      <h2 class="end-title">
+        {{ translation.translate('شكراً', 'Thank you', 'Merci', 'Grazie') }}
+      </h2>
+    </div>
+  </div>
+</section>

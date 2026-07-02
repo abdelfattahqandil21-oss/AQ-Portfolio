@@ -1,4 +1,4 @@
-import { Component, viewChild, ElementRef, afterNextRender, inject, DestroyRef, NgZone, input, computed, signal } from '@angular/core';
+import { Component, viewChild, ElementRef, afterNextRender, inject, DestroyRef, NgZone, input, signal } from '@angular/core';
 import { TranslationService } from '../../../core/services/translation/translation';
 import { ScrollService } from '../../../core/services/scroll/scroll';
 
@@ -65,22 +65,22 @@ export class AboutSection {
     this.destroyRef.onDestroy(() => this.dispose());
   }
 
+  private readonly aboutStartVh = 380;
+  private readonly aboutEndVh = 480;
+
   private startLoop(): void {
-    const aboutStart = 0.18; // approximate scrollProgress when about kicks in
-    const scaleDuration = 0.25; // first 25% of about section for scale-in
+    const scaleDuration = 0.25;
 
     const loop = () => {
       this.rafId = requestAnimationFrame(loop);
 
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollY = this.scroll.scrollY();
-      const globalProgress = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
+      const startPx = (this.aboutStartVh * window.innerHeight) / 100;
+      const endPx = (this.aboutEndVh * window.innerHeight) / 100;
+      const range = endPx - startPx;
+      const local = range > 0
+        ? Math.max(0, Math.min(1, (this.scroll.scrollY() - startPx) / range))
+        : 0;
 
-      // local 0→1 within about section
-      const local = globalProgress <= aboutStart ? 0
-        : Math.min((globalProgress - aboutStart) / (1 - aboutStart), 1);
-
-      // cube: start at 4x, shrink to 1x over first scaleDuration of about section
       const scaleTarget = local < scaleDuration
         ? 1 + 3 * (1 - local / scaleDuration)
         : 1;
@@ -88,7 +88,6 @@ export class AboutSection {
       this.edges.scale.set(s, s, s);
       this.cubeScale.set(Math.round(s * 100) / 100);
 
-      // text reveal: fade in + scale over same period
       const reveal = local < scaleDuration
         ? local / scaleDuration
         : 1;
