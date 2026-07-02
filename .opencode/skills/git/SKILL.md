@@ -1,23 +1,23 @@
 ---
-name: git-workflow
-description: Git conventions — branching, commit format, PR checklist, tags
+name: git
+description: Git conventions — Conventional Commits, branching, tags, PR workflow
 ---
 
 # Git Workflow
 
-## Commit Format — Conventional Commits
+## Commit Format
 ```
-type(scope): short description (max 72 chars, lowercase, no period)
+type(scope): message (max 72 chars, lowercase, no period)
 ```
 Types: `feat` `fix` `refactor` `chore` `docs` `test` `style` `perf` `ci`
 
 ## Branching
 ```
 master     — production (protected)
-release    — staging/release candidates
+release    — staging
 develop    — integration
-feature/*  — feature/user-profile
-fix/*      — fix/cart-total
+feature/*  — new features
+fix/*      — bug fixes
 ```
 
 ## Before Committing

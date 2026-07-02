@@ -1,18 +1,18 @@
 ---
-name: jsdoc
-description: Minimal JSDoc rules — document exported APIs, not internals
+name: documentation
+description: JSDoc rules — when to write, structure, what to skip
 ---
 
-# JSDoc Rules
+# JSDoc
 
 ## When to Write
 - All exported functions, methods, classes
 - Private methods only if logic is non-obvious
-- Skip simple getters, one-liners, obvious parameters
+- Skip simple getters / one-liners
 
 ## Format
 ```typescript
-/** One-sentence summary ending with a period. */
+/** One-sentence summary. */
 /**
  * @param paramName - Description.
  * @returns Description.
@@ -20,5 +20,5 @@ description: Minimal JSDoc rules — document exported APIs, not internals
 ```
 
 - Describe WHAT and WHY, not HOW
-- Don't repeat parameter names in descriptions
+- Don't repeat param names in descriptions
 - Don't document types — TypeScript carries them
