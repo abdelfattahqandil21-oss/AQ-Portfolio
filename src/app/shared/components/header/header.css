@@ -38,3 +38,67 @@
 
 .menu-enter { animation: menu-in 300ms cubic-bezier(.35,0,.25,1) both; }
 .menu-leave { animation: menu-out 250ms cubic-bezier(.35,0,.25,1) both; }
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.spacer {
+  width: 100%;
+  pointer-events: none;
+}
+
+/* Composited btn-shine: transform instead of background-position */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.35) 45%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.35) 55%,
+    transparent 70%
+  );
+  transform: translateX(-105%);
+  will-change: transform;
+  pointer-events: none;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-shine:hover::after {
+  transform: translateX(105%);
+}
+
+/* Static metallic gradient — no animated background-position */
+.metallic-text {
+  background: linear-gradient(
+    90deg,
+    #b0b8c4 10%,
+    #d8e0e8 30%,
+    #f0f4f8 50%,
+    #c8d0d8 65%,
+    #9aa4b0 85%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
