@@ -1,8 +1,13 @@
 <canvas #canvas aria-hidden="true" (click)="onCanvasClick($event)"></canvas>
 
 <section id="projects" class="projects-root">
-  @if (entered() && !pastEnd()) {
-    <div class="project-strip">
+  @if (entered()) {
+    <div
+      class="project-strip"
+      [style.opacity]="1 - exitFade()"
+      [style.transform]="'translateY(' + (exitFade() * 20) + 'px)'"
+      [style.pointer-events]="exitFade() > 0.5 ? 'none' : 'auto'"
+    >
       <div class="strip-info">
         <h3 class="strip-title">{{ projects[activeIndex()].title[translation.currentLang()] || projects[activeIndex()].title.en }}</h3>
         <p class="strip-desc">{{ projects[activeIndex()].desc[translation.currentLang()] || projects[activeIndex()].desc.en }}</p>
@@ -18,16 +23,4 @@
     </div>
   }
 
-  <div
-    class="projects-end-fade"
-    [style.opacity]="sectionFade()"
-    [style.transform]="'translateY(' + sectionSinkY() + 'px)'"
-    [style.z-index]="sectionFade() > 0.01 ? 5 : 1"
-  >
-    <div class="projects-end-card">
-      <h2 class="end-title">
-        {{ translation.translate('شكراً', 'Thank you', 'Merci', 'Grazie') }}
-      </h2>
-    </div>
-  </div>
 </section>

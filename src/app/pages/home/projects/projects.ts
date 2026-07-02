@@ -35,7 +35,7 @@ export class ProjectsSection {
   private lastActive = -1;
   private rafId: number | null = null;
 
-  private readonly skillsEndVh = 480 + 780;
+  private readonly skillsEndVh = 510 + 780 + 30;
   readonly projectVh = 150;
 
   readonly projects: Project[] = [
@@ -98,20 +98,14 @@ export class ProjectsSection {
     return this.projectsScrollY() >= totalPx;
   });
 
-  readonly sectionFade = computed(() => {
+  readonly currentUrl = computed(() => this.projects[this.activeIndex()]?.url ?? '');
+
+  readonly exitFade = computed(() => {
     const totalPx = (this.totalProjectsVh * window.innerHeight) / 100;
-    const fadeStartPx = totalPx - window.innerHeight * 0.15;
-    const range = window.innerHeight * 0.15;
-    const raw = (this.projectsScrollY() - fadeStartPx) / range;
+    const exitStartPx = totalPx - window.innerHeight * 0.3;
+    const raw = (this.projectsScrollY() - exitStartPx) / (window.innerHeight * 0.3);
     return Math.max(0, Math.min(1, raw));
   });
-
-  readonly sectionSinkY = computed(() => {
-    const f = this.sectionFade();
-    return f * f * 60;
-  });
-
-  readonly currentUrl = computed(() => this.projects[this.activeIndex()]?.url ?? '');
 
   onCanvasClick(event: MouseEvent): void {
     if (!this.THREE || !this.cube || !this.cube.visible) return;

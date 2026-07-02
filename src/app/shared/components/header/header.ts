@@ -34,18 +34,21 @@ export class Header {
   readonly activeSection = computed(() => {
     const sy = this.scroll.scrollY();
     const aboutStartPx = (385 * window.innerHeight) / 100;
-    const skillsStartPx = (480 * window.innerHeight) / 100;
-    const projectsStartPx = (1260 * window.innerHeight) / 100;
+    const skillsStartPx = (510 * window.innerHeight) / 100;
+    const projectsStartPx = (1320 * window.innerHeight) / 100;
+    const contactStartPx = (1950 * window.innerHeight) / 100;
     if (sy < aboutStartPx) return 'home';
     if (sy < skillsStartPx) return 'about';
     if (sy < projectsStartPx) return 'skills';
-    return 'projects';
+    if (sy < contactStartPx) return 'projects';
+    return 'contact';
   });
 
   private readonly SCROLL_TARGETS: Record<string, number> = {
     about: 385,
-    skills: 480,
-    projects: 1290,
+    skills: 510,
+    projects: 1350,
+    contact: 1950,
   };
 
   navigate(href: string): void {

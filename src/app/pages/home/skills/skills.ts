@@ -22,7 +22,7 @@ export class SkillsSection {
   readonly scroll = inject(ScrollService);
   readonly translation = inject(TranslationService);
 
-  private readonly heroEndVh = 480;
+  private readonly heroEndVh = 480 + 30;
   private readonly categoryVh = 130;
 
   readonly categories: SkillCategory[] = [
@@ -137,6 +137,7 @@ export class SkillsSection {
   };
 
   readonly blockStates = computed(() => {
+    const exit = this.exitFade();
     const active = this.activeIndex();
     const p = this.categoryProgress();
     const entered = this.enteredSkills();
@@ -144,22 +145,26 @@ export class SkillsSection {
     if (this.pastEnd()) return this.categories.map(() => hidden);
     return this.categories.map((_, i) => {
       if (!entered) return hidden;
+      let base: { opacity: number; scale: number };
       if (i === active) {
         const isLast = i === this.categories.length - 1;
         const fadeOutStart = isLast ? 0.52 : 0.52;
         if (p > fadeOutStart) {
           const range = isLast ? 0.2 : 0.13;
-          return this.transitionOut(Math.min(1, (p - fadeOutStart) / range));
+          base = this.transitionOut(Math.min(1, (p - fadeOutStart) / range));
+        } else {
+          base = this.transitionIn(i === 0 ? Math.min(1, p / 0.08) : 1);
         }
-        return this.transitionIn(i === 0 ? Math.min(1, p / 0.08) : 1);
-      }
-      if (i === active + 1) {
+      } else if (i === active + 1) {
         if (p > 0.82) {
-          return this.transitionIn(Math.min(1, (p - 0.82) / 0.18));
+          base = this.transitionIn(Math.min(1, (p - 0.82) / 0.18));
+        } else {
+          return hidden;
         }
+      } else {
         return hidden;
       }
-      return hidden;
+      return { opacity: base.opacity * (1 - exit), scale: base.scale };
     });
   });
 
@@ -168,20 +173,10 @@ export class SkillsSection {
     return Math.min(1, this.skillsScrollY() / totalPx);
   });
 
-  readonly sectionFade = computed(() => {
+  readonly exitFade = computed(() => {
     const totalPx = (this.totalSkillsVh * window.innerHeight) / 100;
-    const fadeStartPx = totalPx - window.innerHeight * 0.4;
-    const range = window.innerHeight * 0.4;
-    const raw = (this.skillsScrollY() - fadeStartPx) / range;
-    const fadeIn = Math.max(0, Math.min(1, raw));
-    if (!this.pastEnd()) return fadeIn;
-    const exitPx = this.skillsScrollY() - totalPx;
-    const exitVh = (exitPx / window.innerHeight) * 100;
-    return Math.max(0, fadeIn - exitVh / 15);
-  });
-
-  readonly sectionSinkY = computed(() => {
-    const f = this.sectionFade();
-    return f * f * 60;
+    const exitStartPx = totalPx - window.innerHeight * 0.3;
+    const raw = (this.skillsScrollY() - exitStartPx) / (window.innerHeight * 0.3);
+    return Math.max(0, Math.min(1, raw));
   });
 }

@@ -28,17 +28,4 @@
       </div>
     </div>
   }
-
-  <div
-    class="skills-end-fade"
-    [style.opacity]="sectionFade()"
-    [style.transform]="'translateY(' + sectionSinkY() + 'px)'"
-    [style.z-index]="sectionFade() > 0.01 ? 5 : 1"
-  >
-    <div class="skills-end-card">
-      <h2 class="end-title">
-        {{ translation.translate('شكراً', 'Thank you', 'Merci', 'Grazie') }}
-      </h2>
-    </div>
-  </div>
 </section>

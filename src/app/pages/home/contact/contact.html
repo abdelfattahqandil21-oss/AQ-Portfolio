@@ -1,0 +1,39 @@
+<section id="contact" class="contact-root">
+  <div class="contact-spacer"></div>
+
+  <div
+    class="contact-overlay"
+    [style.opacity]="fade()"
+    [style.transform]="'translateY(' + sinkY() + 'px)'"
+    [style.pointer-events]="fade() > 0.5 ? 'auto' : 'none'"
+  >
+    <div class="contact-card">
+      <h2 class="contact-heading">
+        {{ translation.translate('تواصل معي', 'Get in Touch', 'Contactez-moi', 'Contattami') }}
+      </h2>
+      <p class="contact-sub">
+        {{ translation.translate('يسعدني التواصل معك', "I'd love to hear from you", 'Je serais ravi de vous entendre', 'Sarei felice di sentirti') }}
+      </p>
+
+      <div class="contact-items">
+        @for (item of contacts; track item.label.en) {
+          <a class="contact-item" [href]="item.href" target="_blank" rel="noopener noreferrer">
+            <i [class]="item.icon" aria-hidden="true"></i>
+            <div class="contact-item-text">
+              <span class="contact-item-label">{{ translation.translate(item.label.ar, item.label.en, item.label.fr, item.label.it) }}</span>
+              <span class="contact-item-value">{{ item.value }}</span>
+            </div>
+          </a>
+        }
+      </div>
+
+      <div class="contact-socials">
+        @for (s of socials; track s.label) {
+          <a class="contact-social-link" [href]="s.href" target="_blank" rel="noopener noreferrer" [attr.aria-label]="s.label">
+            <i [class]="s.icon" aria-hidden="true"></i>
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</section>
