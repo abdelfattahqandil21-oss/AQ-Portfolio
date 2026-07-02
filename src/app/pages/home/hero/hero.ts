@@ -52,9 +52,9 @@ export class Hero {
       id: 'about',
       content: {
         ar: ['عبدالفتاح قنديل (بودي)', 'مهندس واجهات أول — بناء تطبيقات مؤسسية قابلة للتوسع\nبنية متينة · أداء عالٍ · أنظمة قوية'],
-        en: ['Abdelfattah Qandil (Bodi)', 'Senior Frontend Engineer — building scalable enterprise applications\nRobust architecture · High performance · Reliable systems'],
-        fr: ['Abdelfattah Qandil (Bodi)', 'Ingénieur frontend senior — création d\'applications d\'entreprise évolutives\nArchitecture robuste · Haute performance · Systèmes fiables'],
-        it: ['Abdelfattah Qandil (Bodi)', 'Ingegnere frontend senior — creazione di applicazioni enterprise scalabili\nArchitettura robusta · Alte prestazioni · Sistemi affidabili'],
+        en: ['Abdelfattah Qandil ', 'junior Frontend Engineer — building scalable enterprise applications\nRobust architecture · High performance · Reliable systems'],
+        fr: ['Abdelfattah Qandil', 'Ingénieur frontend junior — création d\'applications d\'entreprise évolutives\nArchitecture robuste · Haute performance · Systèmes fiables'],
+        it: ['Abdelfattah Qandil ', 'Ingegnere frontend junior — creazione di applicazioni enterprise scalabili\nArchitettura robusta · Alte prestazioni · Sistemi affidabili'],
       },
     },
     {
