@@ -41,7 +41,7 @@ export class AboutSection {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+    this.camera = new THREE.PerspectiveCamera(window.innerWidth < 640 ? 60 : 50, window.innerWidth / window.innerHeight, 0.1, 100);
     this.camera.position.z = 4.5;
 
     const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(3.0, 2.0, 3.0));

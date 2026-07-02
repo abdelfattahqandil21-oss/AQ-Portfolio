@@ -210,7 +210,7 @@ export class Hero {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+    this.camera = new THREE.PerspectiveCamera(window.innerWidth < 640 ? 60 : 50, window.innerWidth / window.innerHeight, 0.1, 100);
     this.camera.position.z = 4.5;
 
     this.group = new THREE.Group();
@@ -233,7 +233,7 @@ export class Hero {
   }
 
   private setupEdges(THREE: typeof import('three')): void {
-    const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(2.8, 1.8, 2.8));
+    const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(1.4, 2.0, 1.4));
     this.edgesMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color('#b8c8d8'),
       transparent: true,

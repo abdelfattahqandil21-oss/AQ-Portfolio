@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 right-0 z-100 h-16 flex items-center px-6 bg-metal-950 backdrop-blur-md border-b border-metal-800/30">
+<nav class="fixed top-0 left-0 right-0 z-100 h-16 flex items-center justify-between px-6 bg-metal-950 backdrop-blur-md border-b border-metal-800/30">
   <a href="/" class="shrink-0">
     <span class="text-xl leading-none subtle-metal shimmer logo-font">AQ</span>
   </a>
@@ -18,10 +18,10 @@
   </ul>
 
   <div class="flex items-center gap-3 shrink-0">
-    <lang-switcher />
+    <div class="max-xl:hidden"><lang-switcher /></div>
     <button
-      class="max-xl:flex hidden items-center justify-center w-9 h-9 rounded-lg text-metal-400
-             transition-all duration-200 hover:bg-metal-200 hover:text-white"
+      class="max-xl:flex hidden items-center justify-center w-9 h-9 rounded-lg text-metal-600
+             transition-all duration-200 hover:bg-metal-800 hover:text-white"
       (click)="mobileOpen.update(v => !v)"
     >
       <i class="pi text-lg" [class.pi-bars]="!mobileOpen()" [class.pi-times]="mobileOpen()"></i>
@@ -30,9 +30,9 @@
 </nav>
 
 @if (mobileOpen()) {
-  <ul
+    <ul
     animate.enter="menu-enter" animate.leave="menu-leave"
-    class="fixed top-16 left-0 right-0 z-99 list-none p-2 bg-metal-900/95 backdrop-blur-md border-b border-metal-700/40
+    class="fixed top-16 left-0 right-0 z-99 list-none p-2 bg-surface-950/98 backdrop-blur-md border-b border-metal-800/30
            flex flex-col max-xl:flex"
   >
     @for (item of navItems; track item.href) {
@@ -45,5 +45,8 @@
         {{ translation.translate(item.label.ar, item.label.en, item.label.fr, item.label.it) }}
       </li>
     }
+    <li class="pt-2 mt-2 border-t border-metal-800/30">
+      <lang-switcher />
+    </li>
   </ul>
 }

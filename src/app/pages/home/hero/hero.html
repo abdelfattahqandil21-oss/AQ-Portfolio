@@ -24,39 +24,39 @@
       [style.z-index]="heroActive() && activeIndex() === i ? 5 : 1"
     >
       <div
-        class="text-center max-w-xl px-8 py-10 rounded-2xl bg-surface-950 will-change-transform float-anim"
+        class="text-center max-w-xl px-5 sm:px-8 py-6 sm:py-10 rounded-2xl bg-surface-950 will-change-transform float-anim"
         [style.transform]="activeIndex() === i ? 'scale(' + textScale() + ')' : 'scale(1)'"
         [style.letter-spacing]="activeIndex() === i ? letterSpacing() : '0.15em'"
       >
         @if (i === 0) {
-          <p class="text-8xl md:text-9xl font-bold metallic-text mb-5 leading-none">AQ</p>
+          <p class="text-6xl sm:text-8xl md:text-9xl font-bold metallic-text mb-3 sm:mb-5 leading-none">AQ</p>
         } @else {
-          <p class="text-white/60 text-lg md:text-xl tracking-[0.15em] uppercase mb-5">
+          <p class="text-white/60 text-sm sm:text-lg md:text-xl tracking-[0.15em] uppercase mb-3 sm:mb-5">
             {{ translation.translate(slide.content.ar[0], slide.content.en[0], slide.content.fr[0], slide.content.it[0]) }}
           </p>
         }
 
         @let parts = translation.translate(slide.content.ar[1], slide.content.en[1], slide.content.fr[1], slide.content.it[1]).split('\n');
-        <p class="text-white/80 text-2xl md:text-3xl leading-relaxed">
+        <p class="text-white/80 text-lg sm:text-2xl md:text-3xl leading-relaxed">
           {{ parts[0] }}
         </p>
         @if (parts.length > 1) {
-          <p class="text-white/50 text-base md:text-lg leading-relaxed mt-2">
+          <p class="text-white/50 text-sm sm:text-base md:text-lg leading-relaxed mt-2">
             {{ parts[1] }}
           </p>
         }
 
         @if (i === 2) {
-          <div class="flex items-center justify-center gap-5 mt-12" [style.pointer-events]="activeIndex() === i ? 'auto' : 'none'">
+          <div class="flex items-center justify-center gap-3 sm:gap-5 mt-6 sm:mt-12" [style.pointer-events]="activeIndex() === i ? 'auto' : 'none'">
             <a
               href="/Abdelfattah_Atef_CV.pdf"
               download="Abdelfattah_Atef_CV.pdf"
               aria-label="Download Abdelfattah Atef CV"
-              class="btn-shine cursor-pointer px-7 py-3.5 rounded-xl border border-white/20 text-white/60 text-sm font-medium
+              class="btn-shine cursor-pointer px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-xl border border-white/20 text-white/60 text-xs sm:text-sm font-medium
                      transition-all duration-300 hover:border-white/40 hover:text-white
-                     hover:scale-105 active:scale-95 flex items-center gap-2.5"
+                     hover:scale-105 active:scale-95 flex items-center gap-2"
             >
-              <i class="pi pi-download text-sm relative z-1" aria-hidden="true"></i>
+              <i class="pi pi-download text-xs sm:text-sm relative z-1" aria-hidden="true"></i>
               <span class="relative z-1">CV</span>
             </a>
             <a
@@ -64,9 +64,9 @@
               target="_blank"
               rel="noopener noreferrer"
               aria-label="View Abdelfattah Atef GitHub Profile"
-              class="btn-shine cursor-pointer px-7 py-3.5 rounded-xl border border-white/20 text-white/60 text-sm font-medium
+              class="btn-shine cursor-pointer px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-xl border border-white/20 text-white/60 text-xs sm:text-sm font-medium
                      transition-all duration-300 hover:border-white/40 hover:text-white
-                     hover:scale-105 active:scale-95 flex items-center gap-2.5"
+                     hover:scale-105 active:scale-95 flex items-center gap-2"
             >
               <i class="pi pi-github text-sm relative z-1" aria-hidden="true"></i>
               <span class="relative z-1">GitHub</span>

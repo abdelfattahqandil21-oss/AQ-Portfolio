@@ -19,13 +19,13 @@
       [style.opacity]="textReveal()"
       [style.scale]="0.85 + textReveal() * 0.15"
     >
-      <p class="text-white/60 text-sm md:text-base tracking-[0.2em] uppercase mb-4">
+      <p class="text-white/60 text-xs sm:text-sm md:text-base tracking-[0.2em] uppercase mb-3 sm:mb-4">
         {{ translation.translate('عن', 'About', 'À propos', 'Chi sono') }}
       </p>
-      <h2 class="text-3xl md:text-5xl font-bold metallic-text mb-6">
+      <h2 class="text-2xl sm:text-3xl md:text-5xl font-bold metallic-text mb-4 sm:mb-6">
         {{ translation.translate('عبدالفتاح قنديل', 'Abdelfattah Qandil', 'Abdelfattah Qandil', 'Abdelfattah Qandil') }}
       </h2>
-      <p class="text-white/80 text-base md:text-lg leading-relaxed mb-6">
+      <p class="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6">
         {{ translation.translate(
           'مهندس واجهات أول، متخصص في بناء تطبيقات مؤسسية قابلة للتوسع بهندسة نظيفة وأداء عالٍ.',
           'Senior Frontend Engineer specialized in building scalable enterprise applications with clean architecture and high performance.',
@@ -35,7 +35,7 @@
       </p>
       <div class="flex flex-wrap gap-3 justify-center">
         @for (tech of ['Angular', 'TypeScript', 'Node.js', 'Tailwind CSS']; track tech) {
-          <span class="px-4 py-2 rounded-lg border border-white/10 text-white/60 text-sm font-medium
+          <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-white/10 text-white/60 text-xs sm:text-sm font-medium
                        transition-colors duration-200 hover:border-white/30 hover:text-white/80">
             {{ tech }}
           </span>
