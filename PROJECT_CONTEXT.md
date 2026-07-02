@@ -1,7 +1,7 @@
 # Project Context
 
 ## Last Updated
-2026-07-01
+2026-07-02
 
 ## What This Project Does
 Personal portfolio for Abdelfattah Qandil (AQ) — cinematic 3D scroll journey with Three.js wireframe cube, multi-language support (ar/en/fr/it), and a fixed About section framing text inside a 3D cube.
@@ -95,11 +95,23 @@ Hero-About v1 is complete. Next: add CV download + real GitHub URL to craft slid
 - Feature branches from `develop`
 - Tags: `hero-about-v1`
 
+## Testing (Vitest)
+- Vitest v4.1.9 + jsdom + @testing-library/angular + @testing-library/jest-dom
+- `ng test` runs all specs — 56 tests across 11 files, all passing
+- Config: `vitest.config.ts`, setup: `src/test-setup.ts`
+- `tsconfig.spec.json` with `vitest/globals` + `@testing-library/jest-dom` types
+- `angular.json` test target uses `@angular/build:unit-test`
+- Tests next to source files — `<name>.spec.ts` alongside `<name>.ts`
+- Service tests use `TestBed` + `ApplicationRef.tick()` for zoneless signal flushing
+- Component tests can use `render()` from `@testing-library/angular` or `TestBed.createComponent`
+- Three.js mock in `three-scene.spec.ts` uses `function` keyword in `vi.mock()` factory
+- Test files: TranslationService (6), ScrollService (11), ViewTransitionService (8), ThreeSceneService (4), Hero (11), Header (4), LangSwitcher (5), AboutSection (4), App (1), Home (1), Shell (1)
+
 ## Known Tech Debt / Issues
 - CV download link and real GitHub URL not yet added to craft slide
 - No Lighthouse audit yet
 - RTL/LTR about section layout not fully tested
-- No tests written yet
+- 6 unhandled Three.js WebGL rejections in about/home spec files (jsdom has no WebGL — cosmetic only, tests pass)
 - Build command: `pnpm run build`
 
 ## Non-Obvious File Map
@@ -111,3 +123,5 @@ Hero-About v1 is complete. Next: add CV download + real GitHub URL to craft slid
 - `src/styles/theme.css` — @theme with surface + metal color palettes
 - `src/styles/view-transitions.css` — global ::view-transition pseudo-element keyframes
 - `src/styles/base.css` — body/font/scrollbar, Armelie @font-face
+- `vitest.config.ts` — Vitest config with jsdom + Angular test setup
+- `src/test-setup.ts` — imports `@testing-library/jest-dom/vitest` matchers
