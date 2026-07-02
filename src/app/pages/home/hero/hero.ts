@@ -233,7 +233,8 @@ export class Hero {
   }
 
   private setupEdges(THREE: typeof import('three')): void {
-    const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(1.4, 2.0, 1.4));
+    const isMobile = window.innerWidth < 640;
+    const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(isMobile ? 1.4 : 2.3, isMobile ? 2.0 : 1.6, isMobile ? 1.4 : 2.3));
     this.edgesMaterial = new THREE.LineBasicMaterial({
       color: new THREE.Color('#b8c8d8'),
       transparent: true,

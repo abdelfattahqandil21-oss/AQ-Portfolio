@@ -154,7 +154,7 @@ export class ProjectsSection {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(window.innerWidth < 640 ? 55 : 45, window.innerWidth / window.innerHeight, 0.1, 100);
-    this.camera.position.z = 6.5;
+    this.camera.position.z = window.innerWidth < 640 ? 6.5 : 5.0;
 
     const allUrls: string[] = [];
     const imgGroupOffsets: number[] = [];
@@ -179,7 +179,8 @@ export class ProjectsSection {
     const maxAnisotropy = this.renderer.capabilities.getMaxAnisotropy();
     this.compositedTextures = this.buildAllComposites(THREE, maxAnisotropy);
 
-    const geo = new THREE.BoxGeometry(2.8, 1.6, 2.8);
+    const isMobile = window.innerWidth < 640;
+    const geo = new THREE.BoxGeometry(isMobile ? 2.8 : 3.6, isMobile ? 1.6 : 2.0, isMobile ? 2.8 : 3.6);
 
     for (let i = 0; i < 6; i++) {
       this.materials.push(new THREE.MeshBasicMaterial());
