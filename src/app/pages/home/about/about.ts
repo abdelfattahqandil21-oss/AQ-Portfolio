@@ -94,7 +94,7 @@ export class AboutSection {
         : 1;
       this.textReveal.set(Math.round(reveal * 100) / 100);
 
-      this.edges.rotation.y += 0.008;
+      this.edges.rotation.y = local * Math.PI * 4;
 
       const targetX = this.translation.currentLang() === 'ar' ? 0.7 : -0.7;
       this.edges.position.x += (targetX - this.edges.position.x) * 0.06;

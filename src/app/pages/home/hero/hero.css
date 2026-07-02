@@ -48,6 +48,15 @@ canvas {
   transform: translateX(105%);
 }
 
+@keyframes float {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -7px; }
+}
+
+.float-anim {
+  animation: float 5s ease-in-out infinite;
+}
+
 /* Static metallic gradient — no animated background-position */
 .metallic-text {
   background: linear-gradient(

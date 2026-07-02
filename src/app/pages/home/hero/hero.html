@@ -14,7 +14,7 @@
   ></div>
 
   <!-- About section emerges from the dive -->
-  <about-section [active]="aboutReveal()" />
+  <about-section id="about" [active]="aboutReveal()" />
 
   @for (slide of slides; track slide.id; let i = $index) {
     <div
@@ -23,7 +23,7 @@
       [style.transform]="'translateY(' + slideSinkY() + 'px) scale(' + slideSinkScale() + ')'"
     >
       <div
-        class="text-center max-w-xl px-8 py-10 rounded-2xl bg-surface-950 will-change-transform"
+        class="text-center max-w-xl px-8 py-10 rounded-2xl bg-surface-950 will-change-transform float-anim"
         [style.transform]="activeIndex() === i ? 'scale(' + textScale() + ')' : 'scale(1)'"
         [style.letter-spacing]="activeIndex() === i ? letterSpacing() : '0.15em'"
       >
@@ -48,7 +48,8 @@
         @if (i === 2) {
           <div class="flex items-center justify-center gap-5 mt-12 pointer-events-auto">
             <a
-              href="#"
+              href="/Abdelfattah_Atef_CV.pdf"
+              download="Abdelfattah_Atef_CV.pdf"
               aria-label="Download Abdelfattah Atef CV"
               class="btn-shine cursor-pointer px-7 py-3.5 rounded-xl border border-white/20 text-white/60 text-sm font-medium
                      transition-all duration-300 hover:border-white/40 hover:text-white
@@ -58,7 +59,7 @@
               <span class="relative z-1">CV</span>
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/abdelfattahqandil21-oss"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="View Abdelfattah Atef GitHub Profile"

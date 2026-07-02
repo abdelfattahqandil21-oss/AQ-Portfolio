@@ -25,11 +25,12 @@ export class Hero {
   private group!: import('three').Group;
   private edges!: import('three').LineSegments;
   private edgesMaterial!: import('three').LineBasicMaterial;
-  private torusKnot!: import('three').Mesh;
-  private torusMaterial!: import('three').MeshPhysicalMaterial;
-  private particles!: import('three').Points;
-  private particlesMaterial!: import('three').PointsMaterial;
-  private particleSeed: Float32Array | null = null;
+  private particleLayers: {
+    points: import('three').Points;
+    material: import('three').PointsMaterial;
+    seed: Float32Array;
+    parallax: number;
+  }[] = [];
   private rafId: number | null = null;
 
   private mouseX = 0;
@@ -209,7 +210,6 @@ export class Hero {
     this.scene.add(this.group);
 
     this.setupEdges(THREE);
-    this.setupTorusKnot(THREE);
     this.setupParticles(THREE);
     this.setupMouseTracking();
 
@@ -236,47 +236,36 @@ export class Hero {
     this.group.add(this.edges);
   }
 
-  private setupTorusKnot(THREE: typeof import('three')): void {
-    const tkGeo = new THREE.TorusKnotGeometry(1, 0.3, 128, 24);
-    this.torusMaterial = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color('#c0d0e0'),
-      metalness: 0.95,
-      roughness: 0.08,
-      transparent: true,
-      opacity: 0,
-      clearcoat: 0.3,
-    });
-    this.torusKnot = new THREE.Mesh(tkGeo, this.torusMaterial);
-    this.torusKnot.scale.set(0, 0, 0);
-    this.group.add(this.torusKnot);
-  }
-
   private setupParticles(THREE: typeof import('three')): void {
-    const count = 1500;
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const r = Math.random() * 2.8;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 4;
+    const layers = [
+      { count: 300, radius: 1.5, size: 0.04, parallax: 1.8, depth: 2 },
+      { count: 500, radius: 3.0, size: 0.025, parallax: 1.0, depth: 4 },
+      { count: 700, radius: 4.5, size: 0.015, parallax: 0.4, depth: 6 },
+    ];
+    for (const cfg of layers) {
+      const positions = new Float32Array(cfg.count * 3);
+      for (let i = 0; i < cfg.count; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const r = Math.random() * cfg.radius;
+        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = (Math.random() - 0.5) * cfg.depth;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({
+        color: new THREE.Color('#b8c8d8'),
+        size: cfg.size,
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+      });
+      const pts = new THREE.Points(geo, mat);
+      this.group.add(pts);
+      this.particleLayers.push({ points: pts, material: mat, seed: new Float32Array(positions), parallax: cfg.parallax });
     }
-    this.particleSeed = new Float32Array(positions);
-
-    const geoP = new THREE.BufferGeometry();
-    geoP.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    this.particlesMaterial = new THREE.PointsMaterial({
-      color: new THREE.Color('#b8c8d8'),
-      size: 0.025,
-      transparent: true,
-      opacity: 0,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
-    });
-    const pts = new THREE.Points(geoP, this.particlesMaterial);
-    this.particles = pts;
-    this.group.add(pts);
   }
 
   private setupMouseTracking(): void {
@@ -308,30 +297,22 @@ export class Hero {
       let targetEdgeScale: number;
       let targetEdgeOpacity: number;
       let targetParticleOpacity: number;
-      let targetTorusOpacity: number;
-      let targetTorusScale: number;
 
       if (idx === 0) {
         targetCamZ = lerp(4.5, 0.5, progress);
         targetEdgeScale = lerp(1, 2.5, progress);
         targetEdgeOpacity = lerp(0.5, 0.8, progress);
         targetParticleOpacity = lerp(0, 0.1, progress);
-        targetTorusOpacity = 0;
-        targetTorusScale = 0;
       } else if (idx === 1) {
         targetCamZ = lerp(0.5, 1.8, progress);
         targetEdgeScale = lerp(2.5, 3.5, progress);
         targetEdgeOpacity = lerp(0.8, 0, progress);
         targetParticleOpacity = lerp(0.1, 0.6, progress);
-        targetTorusOpacity = progress;
-        targetTorusScale = lerp(0, 0.8, progress);
       } else {
         targetCamZ = lerp(1.8, 2.5, progress);
         targetEdgeScale = 3.5;
         targetEdgeOpacity = 0;
         targetParticleOpacity = lerp(0.6, 0.1, progress);
-        targetTorusOpacity = 1;
-        targetTorusScale = lerp(0.8, 1, progress);
       }
 
       this.camera.position.z += (targetCamZ - this.camera.position.z) * speed;
@@ -340,16 +321,16 @@ export class Hero {
       this.edges.scale.set(es, es, es);
       this.edgesMaterial.opacity += (targetEdgeOpacity - this.edgesMaterial.opacity) * speed;
 
-      this.particlesMaterial.opacity += (targetParticleOpacity - this.particlesMaterial.opacity) * speed * 0.8;
+      for (const layer of this.particleLayers) {
+        layer.material.opacity += (targetParticleOpacity - layer.material.opacity) * speed * 0.8;
+        layer.points.position.x = this.paraX * layer.parallax * 0.3;
+        layer.points.position.y = this.paraY * layer.parallax * 0.3;
+      }
 
-      this.torusMaterial.opacity += (targetTorusOpacity - this.torusMaterial.opacity) * speed;
-      const ts = this.torusKnot.scale.x + (targetTorusScale - this.torusKnot.scale.x) * speed;
-      this.torusKnot.scale.set(ts, ts, ts);
-
-      if (this.particles && this.particleSeed) {
-        const posAttr = this.particles.geometry.attributes['position'] as import('three').BufferAttribute;
+      for (const layer of this.particleLayers) {
+        const posAttr = layer.points.geometry.attributes['position'] as import('three').BufferAttribute;
         const pos = posAttr.array as Float32Array;
-        const seed = this.particleSeed;
+        const seed = layer.seed;
         for (let i = 0; i < pos.length; i += 3) {
           if (idx === 1) {
             pos[i + 2] = seed[i + 2] - progress * 3;
@@ -360,22 +341,15 @@ export class Hero {
         posAttr.needsUpdate = true;
       }
 
-      const baseRotationSpeed = 0.005;
-      if (idx === 2) {
-        const velocityFactor = 1 + Math.min(Math.abs(vel) * 0.02, 3);
-        this.torusKnot.rotation.x += baseRotationSpeed * velocityFactor;
-        this.torusKnot.rotation.y += baseRotationSpeed * 1.5 * velocityFactor;
-      } else if (idx === 1) {
-        this.torusKnot.rotation.x += baseRotationSpeed * 0.5;
-        this.torusKnot.rotation.y += baseRotationSpeed * 0.75;
-      }
+      // Slow camera orbit
+      const orbitAngle = performance.now() * 0.00015;
+      this.camera.position.x += (Math.sin(orbitAngle) * 0.12 - this.camera.position.x) * 0.015;
+      this.camera.position.y += (Math.cos(orbitAngle * 0.7) * 0.08 - this.camera.position.y) * 0.015;
 
       this.paraX += (this.mouseX * 0.15 - this.paraX) * 0.03;
       this.paraY += (this.mouseY * 0.15 - this.paraY) * 0.03;
 
       if (idx === 2) {
-        this.torusKnot.rotation.x += this.paraY * 0.02;
-        this.torusKnot.rotation.z += this.paraX * 0.015;
         this.camera.position.x += (this.mouseX * 0.3 - this.camera.position.x) * 0.02;
         this.camera.position.y += (this.mouseY * 0.2 - this.camera.position.y) * 0.02;
       } else {
@@ -388,11 +362,9 @@ export class Hero {
       const fadeP = this.heroFadeProgress();
       if (fadeP > 0) {
         this.edgesMaterial.opacity = Math.max(0, this.edgesMaterial.opacity - 0.04);
-        this.particlesMaterial.opacity = Math.max(0, this.particlesMaterial.opacity - 0.04);
-        this.torusMaterial.opacity = Math.max(0, this.torusMaterial.opacity - 0.04);
-        const ts = this.torusKnot.scale.x;
-        const ts2 = Math.max(0, ts - 0.02);
-        this.torusKnot.scale.set(ts2, ts2, ts2);
+        for (const layer of this.particleLayers) {
+          layer.material.opacity = Math.max(0, layer.material.opacity - 0.04);
+        }
       }
 
       this.renderer.render(this.scene, this.camera);
@@ -405,10 +377,10 @@ export class Hero {
     this.renderer?.dispose();
     this.edgesMaterial?.dispose();
     this.edges?.geometry?.dispose();
-    this.particlesMaterial?.dispose();
-    this.particles?.geometry?.dispose();
-    this.torusMaterial?.dispose();
-    this.torusKnot?.geometry?.dispose();
+    for (const layer of this.particleLayers) {
+      layer.material?.dispose();
+      layer.points?.geometry?.dispose();
+    }
   }
 }
 

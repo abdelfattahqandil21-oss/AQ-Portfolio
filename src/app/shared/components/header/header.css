@@ -88,6 +88,12 @@ canvas {
   transform: translateX(105%);
 }
 
+.btn-shine.active {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+}
+
 /* Static metallic gradient — no animated background-position */
 .metallic-text {
   background: linear-gradient(

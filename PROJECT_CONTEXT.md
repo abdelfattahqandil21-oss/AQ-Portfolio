@@ -7,7 +7,10 @@
 Personal portfolio for Abdelfattah Qandil (AQ) — cinematic 3D scroll journey with Three.js wireframe cube, multi-language support (ar/en/fr/it), and a fixed About section framing text inside a 3D cube.
 
 ## Current Focus
-Hero-About v1 is complete. Next: add CV download + real GitHub URL to craft slide buttons, Lighthouse audit, RTL/LTR testing.
+- Hero-About v1 is complete
+- Craft slide buttons: CV download link + real GitHub URL — done
+- Header nav items now scroll to sections — done
+- Next: RTL/LTR about section testing, Lighthouse audit
 
 ## Decisions Made — Do Not Re-Discuss
 
@@ -108,7 +111,6 @@ Hero-About v1 is complete. Next: add CV download + real GitHub URL to craft slid
 - Test files: TranslationService (6), ScrollService (11), ViewTransitionService (8), ThreeSceneService (4), Hero (11), Header (4), LangSwitcher (5), AboutSection (4), App (1), Home (1), Shell (1)
 
 ## Known Tech Debt / Issues
-- CV download link and real GitHub URL not yet added to craft slide
 - No Lighthouse audit yet
 - RTL/LTR about section layout not fully tested
 - 6 unhandled Three.js WebGL rejections in about/home spec files (jsdom has no WebGL — cosmetic only, tests pass)
