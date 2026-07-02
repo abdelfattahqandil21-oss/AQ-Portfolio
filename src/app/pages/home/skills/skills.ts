@@ -173,7 +173,11 @@ export class SkillsSection {
     const fadeStartPx = totalPx - window.innerHeight * 0.4;
     const range = window.innerHeight * 0.4;
     const raw = (this.skillsScrollY() - fadeStartPx) / range;
-    return Math.max(0, Math.min(1, raw));
+    const fadeIn = Math.max(0, Math.min(1, raw));
+    if (!this.pastEnd()) return fadeIn;
+    const exitPx = this.skillsScrollY() - totalPx;
+    const exitVh = (exitPx / window.innerHeight) * 100;
+    return Math.max(0, fadeIn - exitVh / 15);
   });
 
   readonly sectionSinkY = computed(() => {

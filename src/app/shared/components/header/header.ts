@@ -35,14 +35,17 @@ export class Header {
     const sy = this.scroll.scrollY();
     const aboutStartPx = (385 * window.innerHeight) / 100;
     const skillsStartPx = (480 * window.innerHeight) / 100;
+    const projectsStartPx = (1260 * window.innerHeight) / 100;
     if (sy < aboutStartPx) return 'home';
     if (sy < skillsStartPx) return 'about';
-    return 'skills';
+    if (sy < projectsStartPx) return 'skills';
+    return 'projects';
   });
 
   private readonly SCROLL_TARGETS: Record<string, number> = {
     about: 385,
     skills: 480,
+    projects: 1290,
   };
 
   navigate(href: string): void {
